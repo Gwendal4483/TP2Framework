@@ -19,5 +19,5 @@ def load_config(file_path):
 
 # Exemple d'utilisation
 if __name__ == "__main__":
-    config = load_config("config/exemple.toml")  # Remplace par le bon chemin
+    config = load_config("config/exemple.yaml")
     print(config)
