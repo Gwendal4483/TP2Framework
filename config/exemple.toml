@@ -1,7 +1,7 @@
 [pipeline]
   [pipeline.input]
   type = "csv"
-  file = "data/transactions.csv"
+  file = "data/test.csv"
 
   [[pipeline.steps]]
   [pipeline.steps.filter]

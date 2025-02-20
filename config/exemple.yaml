@@ -1,7 +1,7 @@
 pipeline:
   input:
     type: csv
-    file: data/transactions.csv
+    file: data/test.csv
   steps:
     - filter:
         column: amount
