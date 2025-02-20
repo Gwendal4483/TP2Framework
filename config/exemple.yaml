@@ -1,0 +1,13 @@
+pipeline:
+  input:
+    type: csv
+    file: data/transactions.csv
+  steps:
+    - filter:
+        column: amount
+        condition: ">1000"
+    - group_by:
+        column: category
+  output:
+    type: json
+    file: data/result.json

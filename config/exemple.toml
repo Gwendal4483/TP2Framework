@@ -1,0 +1,17 @@
+[pipeline]
+  [pipeline.input]
+  type = "csv"
+  file = "data/transactions.csv"
+
+  [[pipeline.steps]]
+  [pipeline.steps.filter]
+  column = "amount"
+  condition = ">1000"
+
+  [[pipeline.steps]]
+  [pipeline.steps.group_by]
+  column = "category"
+
+  [pipeline.output]
+  type = "json"
+  file = "data/result.json"
