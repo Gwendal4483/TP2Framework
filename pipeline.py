@@ -1,3 +1,4 @@
+import os
 from framework.config_loader import load_config
 from framework.readers import read_data
 from framework.transformers import filter_data, group_by_column
@@ -16,24 +17,53 @@ def verif(question, default="yes"):
             print("Veuillez répondre par 'y' ou 'n'.")
 
 
+def choose_file(directory, type):
+    """Affiche les fichiers disponibles dans un dossier entré et permet de choisir un fichier."""
+    files = [f for f in os.listdir(directory) if f.endswith(f".{type}")]
+    
+    if not files:
+        print(f"Aucun fichier trouvé dans {directory}/ !")
+        return None
+
+    print("\nFichiers disponibles :")
+    for i, file in enumerate(files, 1):
+        print(f"  {i}. {file}")
+
+    while True:
+        try:
+            choice = int(input("\n Entrez le numéro du fichier à utiliser : "))
+            if 1 <= choice <= len(files):
+                return os.path.join(directory, files[choice - 1])
+        except ValueError:
+            pass
+        print("Entrée invalide. Veuillez entrer un numéro valide.")
+
+
+
+
+
+
 class Pipeline:
     def __init__(self):
 
         """Demande à l'utilisateur s'il veut utiliser un fichier YAML ou TOML."""
-        while True:
-            file_type = input("Voulez-vous charger un fichier YAML ou TOML ? (yaml/toml) ").strip().lower()
-            if file_type in ["yaml", "toml"]:
-                break
-            print("Format invalide. Veuillez entrer 'yaml' ou 'toml'.")
-        config_path = f"config/exemple.{file_type}"
+        # Choisir un fichier de configuration (YAML ou TOML)
+        self.config_path = choose_file("config", "yaml") or choose_file("config", "toml")
+        if not self.config_path:
+            print(" Aucun fichier de configuration sélectionné. Arrêt du programme.")
+            exit(1)
 
         """Charge la configuration et initialise la pipeline."""
-        self.config = load_config(config_path)
+        self.config = load_config(self.config_path)
         self.steps = self.config.get("pipeline", {}).get("steps", [])
         self.input_config = self.config.get("pipeline", {}).get("input", {})
         self.output_config = self.config.get("pipeline", {}).get("output", {})
 
-
+        # Si l'entrée est un CSV, demander quel fichier utiliser
+        if self.input_config.get("type") == "csv":
+            chosen_csv = choose_file("data", "csv")
+            if chosen_csv:
+                self.input_config["file"] = chosen_csv
 
     
 
