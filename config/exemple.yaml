@@ -5,9 +5,7 @@ pipeline:
   steps:
     - filter:
         column: amount
-        condition: ">1000"
-    - group_by:
-        column: category
+        condition: "= 500"
   output:
     type: json
     file: data/result.json
