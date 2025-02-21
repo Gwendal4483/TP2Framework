@@ -17,10 +17,11 @@ def verif(question, default="yes"):
             print("Veuillez répondre par 'y' ou 'n'.")
 
 
-def choose_file(directory, type):
+def choose_file(directory, liste_type):
     """Affiche les fichiers disponibles dans un dossier entré et permet de choisir un fichier."""
-    files = [f for f in os.listdir(directory) if f.endswith(f".{type}")]
-    
+    for type in liste_type : 
+        files = [f for f in os.listdir(directory) if f.endswith(f".{type}")]
+        #A REVOIR, AFFICHE UNIQUEMENT UN DES TYPES DE FICHIERS ENTRES
     if not files:
         print(f"Aucun fichier trouvé dans {directory}/ !")
         return None
@@ -48,7 +49,7 @@ class Pipeline:
 
         """Demande à l'utilisateur s'il veut utiliser un fichier YAML ou TOML."""
         # Choisir un fichier de configuration (YAML ou TOML)
-        self.config_path = choose_file("config", "yaml") or choose_file("config", "toml")
+        self.config_path = choose_file("config", ["yaml","toml"])
         if not self.config_path:
             print(" Aucun fichier de configuration sélectionné. Arrêt du programme.")
             exit(1)
@@ -61,7 +62,7 @@ class Pipeline:
 
         # Si l'entrée est un CSV, demander quel fichier utiliser
         if self.input_config.get("type") == "csv":
-            chosen_csv = choose_file("data", "csv")
+            chosen_csv = choose_file("data", ["csv"])
             if chosen_csv:
                 self.input_config["file"] = chosen_csv
 

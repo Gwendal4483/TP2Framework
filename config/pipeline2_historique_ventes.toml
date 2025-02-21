@@ -1,0 +1,13 @@
+[pipeline]
+  [pipeline.input]
+  type = "csv"
+
+  [[pipeline.steps]]
+  filter = { column = "price", condition = "<= 500" }
+
+  [[pipeline.steps]]
+  filter = { column = "sales", condition = ">= 20" }
+
+  [pipeline.output]
+  type = "json"
+  file = "data/result_pipeline_3.json"

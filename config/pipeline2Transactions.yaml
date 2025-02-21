@@ -1,15 +1,14 @@
 pipeline:
   input:
     type: csv
-    file: data/test.csv
   steps:
     - filter:
         column: amount
-        condition: "> 500"
+        condition: "= 1500"
     - group_by:
         column: category
         aggregation:
           amount: "mean"
   output:
     type: json
-    file: data/result.json
+    file: data/result_pipeline_2.json

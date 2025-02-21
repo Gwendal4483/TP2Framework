@@ -1,0 +1,10 @@
+[pipeline]
+  [pipeline.input]
+  type = "csv"
+
+  [[pipeline.steps]]
+  group_by = { column = "product", aggregation = { sales = "sum" } }
+
+  [pipeline.output]
+  type = "csv"
+  file = "data/result_pipeline_4.csv"
