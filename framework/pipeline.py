@@ -1,6 +1,7 @@
 from config_loader import load_config
 from readers import read_data
 from transformers import filter_data, group_by_column
+from exporters import export_data
 
 
 class Pipeline:
@@ -9,8 +10,10 @@ class Pipeline:
         self.config = load_config(config_path)
         self.steps = self.config.get("pipeline", {}).get("steps", [])
         self.input_config = self.config.get("pipeline", {}).get("input", {})
+        self.output_config = self.config.get("pipeline", {}).get("output", {})
 
-    def run(self, data):
+
+    def run(self):
         """Exécute chaque étape du pipeline sur les données."""
         data = read_data(self.input_config)#on charge les données
         for step in self.steps:#pour chaque étape dans le .yaml ou .tolml
@@ -23,15 +26,16 @@ class Pipeline:
             elif step_name == "group_by":#si c'est un groupement
                 data = group_by_column(data, params["column"], params["aggregation"])
 
-
+        print("Pipeline terminée avec succès !")
+        print("Le .CSV contiendra ces valeurs :  ")
         print(data.head())
 
+        export_data(data, self.output_config)
 
 
-
-        print("Pipeline terminée avec succès !")
+        
 
 # Exemple d'utilisation
 if __name__ == "__main__":
     pipeline = Pipeline("config/exemple.yaml")
-    pipeline.run(None)  # Pour l'instant, on ne traite pas encore de données
+    pipeline.run()  # Pour l'instant, on ne traite pas encore de données
