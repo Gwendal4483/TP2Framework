@@ -1,6 +1,6 @@
 
 ### **README.md**
-```md
+
 #  TP2 - Framework de Traitement de Données
 
 Un framework de traitement de données permettant de **lire, filtrer, transformer et exporter des données** de manière automatisée et interactive à l'aide de fichiers **YAML/TOML**.  
