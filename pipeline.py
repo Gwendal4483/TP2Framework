@@ -19,9 +19,11 @@ def verif(question, default="yes"):
 
 def choose_file(directory, liste_type):
     """Affiche les fichiers disponibles dans un dossier entré et permet de choisir un fichier."""
-    for type in liste_type : 
-        files = [f for f in os.listdir(directory) if f.endswith(f".{type}")]
-        #A REVOIR, AFFICHE UNIQUEMENT UN DES TYPES DE FICHIERS ENTRES
+
+    
+    files = [f for f in os.listdir(directory) if any(f.endswith(f".{ext}") for ext in liste_type)]
+
+
     if not files:
         print(f"Aucun fichier trouvé dans {directory}/ !")
         return None
